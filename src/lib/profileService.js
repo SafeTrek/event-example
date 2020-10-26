@@ -20,6 +20,11 @@ export const findProfileByDeviceId = db => async (deviceId) => {
   return coll.findOne({ 'devices.device_id': deviceId })
 }
 
+export const findProfile = db => async (profileId) => {
+  const coll = db.collection('profiles')
+  return coll.findOne({ _id: ObjectId(profileId) })
+}
+
 export const setLastAlarmId = db => async (profileId, alarmId) => {
   const coll = db.collection('profiles')
   const result = await coll.findOneAndUpdate({ _id: ObjectId(profileId) }, {

@@ -68,3 +68,11 @@ curl --location --request POST 'http://localhost:8081/example/v1/events' \
     "media": "https://playertest.longtailvideo.com/adaptive/issue666/playlists/cisq0gim60007xzvi505emlxx.m3u8"
 }'
 ```
+To cancel the alarm, replace `<profile id>` with the correct profile id and run the following command:
+```
+curl --location --request PUT 'http://localhost:8081/example/v1/profiles/<profile id>/alarms' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "pin": "1234"
+}'
+```

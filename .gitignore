@@ -1,0 +1,10 @@
+/dist
+/lib
+/logs
+/npm-debug.log
+/node_modules
+.DS_Store
+.idea/
+*.iml
+env.sh
+.env

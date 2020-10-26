@@ -1,5 +1,6 @@
 import request from 'request-promise'
 import { setLastAlarmId } from './profileService'
+import { BAD_REQUEST, CREATED } from 'http-status-codes'
 
 const addEventToAlarm = (config, db) => async (profile, alarmId, event) => {
   const { api: baseUrl, auth } = config.noonlight.dispatch
@@ -24,10 +25,10 @@ const addEventToAlarm = (config, db) => async (profile, alarmId, event) => {
     resolveWithFullResponse: true,
     json: true
   })
-  if (result.statusCode === 201) {
+  if (result.statusCode === CREATED) {
     return { success: true }
   }
-  if (result.statusCode === 400 && result.body.key === 'alarm_canceled') {
+  if (result.statusCode === BAD_REQUEST && result.body.key === 'alarm_canceled') {
     const returnValue = await createAlarm(config, db)(profile, event)
     return returnValue
   }
@@ -56,7 +57,7 @@ const createAlarm = (config, db) => async (profile, event) => {
     resolveWithFullResponse: true,
     json: true
   })
-  if (result.statusCode === 201) {
+  if (result.statusCode === CREATED) {
     await setLastAlarmId(db)(profile._id, result.body.id)
     const response = await addEventToAlarm(config, db)(profile, result.body.id, event)
     return response

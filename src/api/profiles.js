@@ -1,6 +1,7 @@
 import uuid from 'uuid/v4'
 import { Router } from 'express'
 import { createProfile, createDevices } from '../lib/profileService'
+import { CREATED, INTERNAL_SERVER_ERROR } from 'http-status-codes'
 
 export default ({ config, db }) => {
   const router = Router({ mergeParams: true })
@@ -10,10 +11,10 @@ export default ({ config, db }) => {
     const profile = req.body
     try {
       const result = await createProfile(db)(profile)
-      return res.status(201).json(result)
+      return res.status(CREATED).json(result)
     } catch (error) {
       console.error(`uuid=${requestId} error=${error}`)
-      return res.status(500).json({
+      return res.status(INTERNAL_SERVER_ERROR).json({
         requestId
       })
     }
@@ -25,10 +26,10 @@ export default ({ config, db }) => {
     const devices = req.body
     try {
       const result = await createDevices(db)(profileId, devices)
-      return res.status(201).json(result)
+      return res.status(CREATED).json(result)
     } catch (error) {
       console.error(`uuid=${requestId} error=${error}`)
-      return res.status(500).json({
+      return res.status(INTERNAL_SERVER_ERROR).json({
         requestId
       })
     }

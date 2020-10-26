@@ -15,8 +15,7 @@ app.server = http.createServer(app)
 // logger
 
 app.use(morgan('method=:method url=:url status=:status latency=:response-time tls_version=:http-version user_agent=":user-agent"', {
-  stream: logger.stream,
-  skip: (req, res) => req.baseUrl === '/healthcheck'
+  stream: logger.stream
 }))
 
 // 3rd party middleware
